@@ -1,0 +1,497 @@
+<div id="root">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+html, body{
+  margin:0;
+  padding:0;
+  background:#0e0a07;
+}
+
+#root, #root *{ box-sizing:border-box; }
+
+#root{
+  --bg-deep:#0e0a07;
+  --bg-glow:#3a2412;
+  --parchment:#e7d6ab;
+  --parchment-2:#d9c391;
+  --parchment-edge:#8d6f41;
+  --ink:#2c1d10;
+  --ink-soft:#5a4226;
+  --wax:#7c1a24;
+  --wax-deep:#460d14;
+  --wax-shine:#b13a44;
+  --gold:#b6913f;
+  --gold-dim:#6e5523;
+
+  position:relative;
+  width:100%;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse 60% 50% at 22% 85%, var(--bg-glow) 0%, transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 10%, #1a120a 0%, var(--bg-deep) 70%);
+  overflow:hidden;
+  font-family:'EB Garamond', serif;
+  color:var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:48px 20px;
+}
+
+/* ambient candle flicker */
+#root::before{
+  content:"";
+  position:absolute;
+  left:10%; bottom:-10%;
+  width:480px; height:480px;
+  background:radial-gradient(circle, rgba(255,176,93,0.16) 0%, rgba(255,140,60,0.06) 40%, transparent 70%);
+  filter:blur(2px);
+  animation:flicker 4.5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes flicker{
+  0%,100%{ opacity:.75; transform:scale(1); }
+  35%{ opacity:1; transform:scale(1.06); }
+  60%{ opacity:.6; transform:scale(0.96); }
+  80%{ opacity:.9; transform:scale(1.02); }
+}
+
+/* dust motes */
+.mote{
+  position:absolute;
+  width:3px; height:3px;
+  border-radius:50%;
+  background:rgba(214,176,110,0.55);
+  animation:drift linear infinite;
+  pointer-events:none;
+}
+@keyframes drift{
+  0%{ transform:translateY(0) translateX(0); opacity:0; }
+  10%{ opacity:.7; }
+  90%{ opacity:.4; }
+  100%{ transform:translateY(-420px) translateX(30px); opacity:0; }
+}
+
+.stage{
+  position:relative;
+  width:100%;
+  max-width:620px;
+  perspective:1800px;
+}
+
+/* ---------- SEALED STATE ---------- */
+.sealed-card{
+  position:relative;
+  margin:0 auto;
+  width:300px;
+  background:linear-gradient(160deg, var(--parchment) 0%, var(--parchment-2) 100%);
+  box-shadow:0 30px 60px -20px rgba(0,0,0,0.75), 0 0 0 1px rgba(60,40,15,0.35), inset 0 0 30px rgba(80,55,20,0.25), inset 0 0 70px rgba(0,0,0,0.18);
+  padding:34px 26px 30px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .6s cubic-bezier(.4,0,.2,1), opacity .6s ease, filter .6s ease;
+  transform-style:preserve-3d;
+}
+.sealed-card:hover{ transform:translateY(-4px) rotate(-0.3deg); }
+.sealed-card::after{
+  /* fold shadow */
+  content:"";
+  position:absolute; left:0; right:0; top:50%;
+  height:1px;
+  background:rgba(0,0,0,0.18);
+  box-shadow:0 1px 0 rgba(255,255,255,0.25);
+}
+
+.eyebrow-sealed{
+  font-family:'Cinzel', serif;
+  font-size:10.5px;
+  letter-spacing:3px;
+  color:var(--gold-dim);
+  margin-bottom:18px;
+}
+
+.seal{
+  position:relative;
+  width:92px; height:92px;
+  margin:6px auto 18px;
+}
+.seal-half{
+  position:absolute; inset:0;
+  transition:transform .9s cubic-bezier(.5,-0.2,.4,1.3), opacity .8s ease .15s;
+}
+.seal-half svg{ width:100%; height:100%; display:block; }
+.seal-left{ clip-path:polygon(0 0,50% 0,50% 100%,0 100%); }
+.seal-right{ clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%); }
+
+.instructions{
+  font-style:italic;
+  color:var(--ink-soft);
+  font-size:14.5px;
+  line-height:1.5;
+  margin-top:4px;
+}
+.instructions b{
+  display:block;
+  font-style:normal;
+  font-family:'Cinzel', serif;
+  font-weight:600;
+  letter-spacing:1px;
+  color:var(--ink);
+  font-size:13px;
+  margin-top:10px;
+}
+
+/* ---------- LETTER (OPEN) STATE ---------- */
+.letter-wrap{
+  position:relative;
+  opacity:0;
+  transform:scale(.92) rotateX(8deg);
+  transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1);
+  pointer-events:none;
+}
+
+.letter{
+  position:relative;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(120,90,40,0.10), transparent 35%),
+    radial-gradient(circle at 90% 85%, rgba(90,60,20,0.12), transparent 40%),
+    linear-gradient(165deg, var(--parchment) 0%, var(--parchment-2) 55%, var(--parchment) 100%);
+  box-shadow:0 40px 80px -25px rgba(0,0,0,0.8), 0 0 0 1px rgba(60,40,15,0.35), inset 0 0 50px rgba(80,55,20,0.22), inset 0 0 90px rgba(0,0,0,0.2);
+  padding:46px 40px 40px;
+  max-height:78vh;
+  overflow-y:auto;
+}
+.letter::before{
+  /* torn top edge */
+  content:"";
+  position:absolute; top:-1px; left:0; right:0; height:10px;
+  background:repeating-linear-gradient(115deg, transparent 0 6px, var(--bg-deep) 6px 7px);
+  opacity:.5;
+}
+
+.letter-eyebrow{
+  font-family:'Cinzel', serif;
+  font-size:11px;
+  letter-spacing:3px;
+  color:var(--gold-dim);
+  text-align:center;
+  margin-bottom:26px;
+  display:flex; align-items:center; gap:10px;
+  justify-content:center;
+}
+.letter-eyebrow::before, .letter-eyebrow::after{
+  content:"";
+  height:1px; width:34px;
+  background:linear-gradient(to var(--dir,right), transparent, var(--gold-dim));
+}
+.letter-eyebrow::after{ --dir:left; }
+
+.letter h1{
+  font-family:'EB Garamond', serif;
+  font-style:italic;
+  font-weight:500;
+  font-size:30px;
+  color:var(--ink);
+  margin:0 0 26px;
+  text-align:left;
+}
+
+.letter p{
+  font-size:18px;
+  line-height:1.55;
+  margin:0 0 14px;
+  color:var(--ink);
+}
+.letter p.short{ margin-bottom:8px; }
+.letter p.emphasis{
+  font-weight:600;
+  color:var(--wax-deep);
+}
+.letter p.quote{
+  font-style:italic;
+  font-family:'Dancing Script', cursive;
+  font-size:26px;
+  text-align:center;
+  color:var(--wax);
+  margin:18px 0 22px;
+}
+.letter p.gap{ height:6px; }
+
+.letter .signature{
+  margin-top:30px;
+  text-align:right;
+  font-family:'Dancing Script', cursive;
+  font-size:36px;
+  font-weight:700;
+  color:var(--wax-deep);
+}
+
+.mini-seal{
+  width:30px; height:30px;
+  display:inline-block;
+  vertical-align:middle;
+  margin-left:8px;
+  opacity:.85;
+}
+
+.divider{
+  width:60px; height:1px;
+  background:var(--gold-dim);
+  margin:22px auto;
+  opacity:.6;
+}
+
+#root.open .sealed-card{ opacity:0; transform:scale(.85) translateY(-10px); pointer-events:none; position:absolute; }
+#root.open .seal-left{ transform:translateX(-14px) rotate(-18deg); opacity:0; }
+#root.open .seal-right{ transform:translateX(14px) rotate(18deg); opacity:0; }
+#root.open .letter-wrap{ opacity:1; transform:scale(1) rotateX(0deg); pointer-events:auto; }
+
+@media (max-width:560px){
+  .letter{ padding:32px 22px 28px; }
+  .letter h1{ font-size:24px; }
+  .letter p{ font-size:16px; }
+  .letter p.quote{ font-size:22px; }
+  .sealed-card{ width:250px; padding:28px 18px 24px; }
+}
+
+.scrollhint{
+  text-align:center;
+  font-family:'Cinzel', serif;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--gold-dim);
+  margin-top:18px;
+  opacity:.7;
+}
+
+/* ---------- BURN BUTTON & FIRE ANIMATION ---------- */
+.burn-zone{
+  text-align:center;
+  margin-top:22px;
+  transition:opacity .8s ease;
+}
+.burn-zone.fade-out{
+  opacity:0;
+  pointer-events:none;
+}
+
+.burn-btn{
+  display:inline-block;
+  padding:10px 30px;
+  background:linear-gradient(160deg, var(--wax-shine) 0%, var(--wax) 45%, var(--wax-deep) 100%);
+  color:var(--parchment);
+  border:1px solid rgba(0,0,0,0.45);
+  border-radius:3px;
+  font-family:'Cinzel', serif;
+  font-size:11.5px;
+  letter-spacing:2.5px;
+  cursor:pointer;
+  box-shadow:0 6px 14px -4px rgba(0,0,0,0.55), inset 0 0 8px rgba(255,255,255,0.08);
+  transition:transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+.burn-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 9px 18px -4px rgba(0,0,0,0.6), inset 0 0 8px rgba(255,255,255,0.1);
+}
+.burn-btn:disabled{
+  opacity:.45;
+  cursor:default;
+  transform:none;
+}
+
+.fire-overlay{
+  position:absolute;
+  inset:0;
+  z-index:8;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  border-radius:inherit;
+}
+.letter.is-burning .fire-overlay{
+  opacity:1;
+}
+
+/* charred / blackened paper rising from the bottom */
+.fire-overlay .char-layer{
+  position:absolute;
+  left:-5%; right:-5%; bottom:0;
+  height:0%;
+  background:
+    radial-gradient(ellipse 60% 40px at 15% 100%, rgba(20,8,3,0.0) 0%, transparent 100%),
+    linear-gradient(to top, #050201 0%, #0c0502 55%, #1c0d05 85%, transparent 100%);
+}
+.letter.is-burning .fire-overlay .char-layer{
+  animation:charRise 2.6s ease-in forwards;
+}
+@keyframes charRise{
+  0%{ height:0%; }
+  100%{ height:118%; }
+}
+
+/* flame band that travels up along the char boundary */
+.fire-overlay .flame-band{
+  position:absolute;
+  left:-15%; right:-15%; bottom:0;
+  height:70px;
+  background:
+    radial-gradient(ellipse 18% 100% at 12% 100%, rgba(255,235,160,0.95) 0%, rgba(255,140,40,0.75) 35%, transparent 70%),
+    radial-gradient(ellipse 20% 100% at 32% 100%, rgba(255,220,130,1) 0%, rgba(255,110,25,0.8) 30%, transparent 65%),
+    radial-gradient(ellipse 16% 100% at 52% 100%, rgba(255,240,170,0.95) 0%, rgba(255,130,30,0.75) 35%, transparent 70%),
+    radial-gradient(ellipse 22% 100% at 72% 100%, rgba(255,210,120,1) 0%, rgba(255,100,20,0.8) 30%, transparent 65%),
+    radial-gradient(ellipse 18% 100% at 90% 100%, rgba(255,230,150,0.95) 0%, rgba(255,120,30,0.75) 35%, transparent 70%);
+  filter:blur(4px) saturate(1.2);
+  mix-blend-mode:screen;
+}
+.letter.is-burning .fire-overlay .flame-band{
+  animation:flameRise 2.6s ease-in forwards, flameFlicker .3s ease-in-out infinite;
+}
+@keyframes flameRise{
+  0%{ bottom:-2%; }
+  100%{ bottom:116%; }
+}
+@keyframes flameFlicker{
+  0%,100%{ transform:scaleY(1) scaleX(1) translateX(0); opacity:1; }
+  30%{ transform:scaleY(1.18) scaleX(1.04) translateX(4px); opacity:.85; }
+  60%{ transform:scaleY(0.9) scaleX(0.97) translateX(-3px); opacity:.95; }
+}
+
+/* warm glow cast onto the page ahead of the flame */
+.fire-overlay .glow-layer{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:0%;
+  background:linear-gradient(to top, rgba(255,140,40,0.35) 0%, rgba(255,140,40,0.12) 60%, transparent 100%);
+  mix-blend-mode:screen;
+  opacity:0;
+}
+.letter.is-burning .fire-overlay .glow-layer{
+  animation:glowRise 2.6s ease-in forwards;
+}
+@keyframes glowRise{
+  0%{ height:6%; opacity:.9; }
+  100%{ height:124%; opacity:.5; }
+}
+
+.ash-note{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  font-family:'EB Garamond', serif;
+  font-style:italic;
+  font-size:17px;
+  color:#c9a877;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1.2s ease;
+}
+#root.burnt-done .letter-wrap .letter{
+  opacity:0;
+  transition:opacity .8s ease .2s;
+}
+#root.burnt-done .ash-note{
+  opacity:1;
+}
+</style>
+
+<div class="mote" style="left:18%; animation-duration:7s; animation-delay:0s;"></div>
+<div class="mote" style="left:26%; animation-duration:9s; animation-delay:1.5s;"></div>
+<div class="mote" style="left:14%; animation-duration:6s; animation-delay:3s;"></div>
+<div class="mote" style="left:30%; animation-duration:8s; animation-delay:2s;"></div>
+
+<div class="stage">
+
+  <div class="sealed-card" id="sealedCard" onclick="breakSeal()">
+    <div class="eyebrow-sealed">CARTA SELADA &middot;</div>
+    <div class="seal">
+      <div class="seal-half seal-left">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#5c0e16"/>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#9a2530" stroke-width="2"/>
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#9a2530" stroke-width="1" opacity="0.6"/>
+          <path d="M50 22 L56 46 L50 78 L44 46 Z" fill="#2c0509" opacity="0.85"/>
+          <path d="M30 50 Q50 38 70 50" stroke="#2c0509" stroke-width="3" fill="none" opacity="0.85"/>
+        </svg>
+      </div>
+      <div class="seal-half seal-right">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#5c0e16"/>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#9a2530" stroke-width="2"/>
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#9a2530" stroke-width="1" opacity="0.6"/>
+          <path d="M50 22 L56 46 L50 78 L44 46 Z" fill="#2c0509" opacity="0.85"/>
+          <path d="M30 50 Q50 62 70 50" stroke="#2c0509" stroke-width="3" fill="none" opacity="0.85"/>
+        </svg>
+      </div>
+    </div>
+    <div class="instructions">
+      Minhas Crianças, se estão lendo isso, ainda estão vivas.
+      <b>Quebre o lacre para ler</b>
+    </div>
+  </div>
+
+  <div class="letter-wrap" id="letterWrap">
+    <div class="letter">
+      <h1>Para aqueles que ainda resistem,</h1>
+
+      <div class="divider"></div>
+      <p class="short">Vão para Dornwick, nas terras do Leste.</p>
+      <p>Procurem por E.V.</p>
+      <p>Digam:</p>
+      <p>"O Inverno ainda observa."</p>
+      <p>Se a resposta for correta, vocês saberão o que fazer.</p>
+      <p>Não confiem nos registros áureos.</p>
+      <p>Permanecendo juntos, vocês têm uma chance de sobreviver.</p>
+      <p class="short emphasis">E não façam nada que me obrigue a atravessar metade do continente para resgatar vocês.</p>
+
+      <p class="signature">— August
+        <svg class="mini-seal" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#5c0e16"/>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#9a2530" stroke-width="2"/>
+          <path d="M50 22 L56 46 L50 78 L44 46 Z" fill="#2c0509" opacity="0.85"/>
+        </svg>
+      </p>
+
+      <div class="fire-overlay" id="fireOverlay">
+        <div class="glow-layer"></div>
+        <div class="char-layer"></div>
+        <div class="flame-band"></div>
+      </div>
+    </div>
+
+    <div class="burn-zone" id="burnZone">
+      <button class="burn-btn" id="burnBtn" onclick="queimarCarta()">Queimar</button>
+    </div>
+
+    <div class="ash-note">As cinzas se dispersam ao vento. A carta não existe mais.</div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function breakSeal(){
+  document.getElementById('root').classList.add('open');
+}
+
+function queimarCarta(){
+  var letter = document.querySelector('.letter');
+  var btn = document.getElementById('burnBtn');
+  var zone = document.getElementById('burnZone');
+  if(!letter || letter.classList.contains('is-burning')) return;
+
+  btn.disabled = true;
+  zone.classList.add('fade-out');
+  letter.classList.add('is-burning');
+
+  setTimeout(function(){
+    document.getElementById('root').classList.add('burnt-done');
+  }, 2600);
+}
+</script>
+</div>
