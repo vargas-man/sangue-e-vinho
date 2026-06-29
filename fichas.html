@@ -1,0 +1,1089 @@
+<div id="sheet-root">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+#sheet-root, #sheet-root *{ box-sizing:border-box; }
+
+#sheet-root{
+  --frame:#140d08;
+  --parchment:#e9dab1;
+  --parchment-2:#dfc99a;
+  --parchment-line:#b9a06a;
+  --ink:#2e2012;
+  --ink-soft:#5c4527;
+  --ink-faint:#8a7350;
+  --gold:#8a691f;
+  --gold-bright:#a9822c;
+  --blood:#7c1a24;
+  --blood-deep:#4a0a14;
+  --blood-bright:#8f1f2a;
+
+  font-family:'EB Garamond', serif;
+  background:
+    radial-gradient(ellipse 140% 100% at 50% -10%, #241a10 0%, var(--frame) 55%);
+  color:var(--ink);
+  padding:40px 16px 70px;
+  width:100%;
+}
+
+.book{
+  max-width:980px;
+  margin:0 auto;
+  position:relative;
+
+  background:
+    radial-gradient(circle at 8% 6%, rgba(120,90,40,0.16), transparent 30%),
+    radial-gradient(circle at 95% 90%, rgba(90,60,20,0.14), transparent 35%),
+    radial-gradient(circle at 60% 40%, rgba(180,140,70,0.06), transparent 50%),
+    linear-gradient(170deg, var(--parchment) 0%, var(--parchment-2) 100%);
+
+  border:2px solid #6d4f17;
+
+  box-shadow:
+    0 0 0 3px #24160a,
+    0 20px 60px rgba(0,0,0,.45);
+
+  border-radius:12px;
+  overflow:hidden;
+
+  padding:46px 50px 50px;
+}
+
+.book::before{
+  content:"";
+  position:absolute;
+  inset:12px;
+  border:1px solid rgba(138,105,31,.45);
+  border-radius:8px;
+  pointer-events:none;
+}
+
+/* corner flourishes */
+.corner{ position:absolute; width:30px; height:30px; opacity:.55; }
+.corner svg{ width:100%; height:100%; stroke:var(--gold); fill:none; stroke-width:1.4; }
+.c-tl{ top:8px; left:8px; }
+.c-tr{ top:8px; right:8px; transform:scaleX(-1); }
+.c-bl{ bottom:8px; left:8px; transform:scaleY(-1); }
+.c-br{ bottom:8px; right:8px; transform:scale(-1,-1); }
+
+/* ---------- HEADER ---------- */
+.head{ text-align:center; margin-bottom:8px; }
+.crest{ width:74px; height:74px; margin:0 auto 14px; }
+.head .eyebrow{
+  font-family:'Cinzel', serif; font-size:11px; letter-spacing:4px;
+  color:var(--gold); margin-bottom:6px;
+}
+.head h1{
+  font-family:'Cinzel', serif; font-weight:700; font-size:36px; letter-spacing:1.5px;
+  margin:0 0 4px; color:var(--blood-deep);
+}
+.head .sub{ font-style:italic; color:var(--ink-soft); font-size:14.5px; }
+
+.flourish{
+  display:flex; align-items:center; justify-content:center; gap:14px;
+  margin:18px 0 30px;
+}
+.flourish .line{ height:1px; width:130px; background:linear-gradient(to var(--d,right), transparent, var(--gold)); }
+.flourish .l1{ --d:right; } .flourish .l2{ --d:left; }
+.flourish svg{ width:14px; height:14px; fill:var(--blood); }
+
+/* ---------- SECTION LABEL ---------- */
+.section-label{
+  display:flex; align-items:center; gap:10px;
+  font-family:'Cinzel', serif; font-size:12.5px; letter-spacing:2.5px;
+  color:var(--blood-deep); margin:0 0 16px;
+}
+.section-label svg{ width:15px; height:15px; fill:var(--blood); flex:none; }
+.section-label .rule{ flex:1; height:1px; background:var(--parchment-line); }
+
+/* ---------- IDENTITY (ledger lines) ---------- */
+.identity{
+  display:grid; grid-template-columns:2.2fr 1.4fr 1fr 1fr 1fr;
+  gap:22px 26px;
+  margin-bottom:30px;
+}
+.identity.row2{ grid-template-columns:1.3fr 1fr 2fr; margin-top:-4px; }
+.ledger label{
+  display:block; font-family:'Cinzel', serif; font-size:9px; letter-spacing:1.8px;
+  color:var(--gold); margin-bottom:6px;
+}
+.ledger input, .ledger select{
+  width:100%; background:transparent; border:none; border-bottom:1px solid var(--ink-faint);
+  font-family:'EB Garamond', serif; font-style:italic; font-size:16px; color:var(--ink);
+  padding:2px 2px 6px; outline:none;
+}
+.ledger input:focus, .ledger select:focus{ border-bottom-color:var(--blood); }
+.ledger select{ font-style:normal; cursor:pointer; }
+.ledger .static{
+  font-family:'Cinzel', serif; font-size:20px; color:var(--blood-deep); padding-bottom:4px;
+  border-bottom:1px solid var(--ink-faint);
+}
+
+/* ---------- ATTRIBUTES ---------- */
+.attrs{
+  display:flex; gap:14px; margin-bottom:10px; flex-wrap:wrap; justify-content:center;
+}
+.attr-tile{
+  width:138px;
+  text-align:center;
+
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.25), rgba(0,0,0,.04));
+
+  border:1px solid rgba(138,105,31,.45);
+  border-radius:10px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.3),
+    0 4px 12px rgba(0,0,0,.08);
+
+  padding:14px 8px 12px;
+  position:relative;
+}
+.attr-tile::before{
+  content:""; position:absolute; top:-4px; left:50%; transform:translateX(-50%);
+  width:7px; height:7px; border-radius:50%; background:var(--gold-bright);
+  box-shadow:0 0 4px rgba(0,0,0,0.3);
+}
+.attr-tile svg{ width:26px; height:26px; stroke:var(--blood-deep); fill:none; stroke-width:1.5; margin-bottom:6px; }
+.attr-tile .aname{ font-family:'Cinzel', serif; font-size:10.5px; letter-spacing:1.2px; color:var(--ink-soft); margin-bottom:8px; }
+.attr-tile input{
+  width:56px; text-align:center; background:var(--parchment); border:1px solid var(--parchment-line);
+  border-radius:4px; font-family:'Cinzel', serif; font-weight:600; font-size:20px; color:var(--blood-deep);
+  padding:4px 2px; margin-bottom:6px;
+}
+.attr-tile .acap{ font-size:10.5px; font-style:italic; color:var(--ink-faint); line-height:1.3; }
+.eqp-bonus{ font-size:10.5px; font-weight:600; color:var(--blood-deep); min-height:14px; margin-bottom:2px; }
+.attr-total{
+  text-align:center; font-family:'Cinzel', serif; font-size:10.5px; letter-spacing:1px;
+  color:var(--ink-faint); margin:14px 0 24px;
+}
+.attr-total b{ color:var(--blood-deep); }
+
+/* ---------- EQUIPAMENTO MÁGICO (escudo + artefatos) ---------- */
+.gear-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-bottom:10px; }
+.gear-card{
+  background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(0,0,0,.03));
+  border:1px solid rgba(138,105,31,.45); border-radius:10px;
+  padding:14px 16px 16px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3), 0 4px 12px rgba(0,0,0,.06);
+}
+.gear-title{
+  font-family:'Cinzel', serif; font-size:11px; letter-spacing:1.5px; color:var(--gold);
+  margin-bottom:10px;
+}
+.gear-card label{
+  display:block; font-family:'Cinzel', serif; font-size:9px; letter-spacing:1.5px;
+  color:var(--ink-faint); margin:8px 0 4px;
+}
+.gear-card label:first-of-type{ margin-top:0; }
+.gear-card input, .gear-card select{
+  width:100%; background:var(--parchment); border:1px solid var(--parchment-line);
+  border-radius:4px; font-family:'EB Garamond', serif; font-size:14px; color:var(--ink);
+  padding:5px 7px; outline:none;
+}
+.gear-card select{ cursor:pointer; font-style:normal; }
+.gear-card input:focus, .gear-card select:focus{ border-color:var(--blood); }
+.gear-card input[type=number]{ font-family:'Cinzel', serif; font-weight:600; text-align:center; }
+.gear-note{
+  font-size:11.5px; font-style:italic; color:var(--ink-faint); text-align:center;
+  margin-bottom:28px;
+}
+
+/* ---------- TWO COLUMN: RESOURCES / LEGADO ---------- */
+.cols{ display:grid; grid-template-columns:1.05fr 1.2fr; gap:36px; margin-bottom:8px; }
+
+/* vials */
+.vial{ margin-bottom:20px; }
+.vial-top{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px; }
+.vial-top .vname{ display:flex; align-items:center; gap:7px; font-family:'Cinzel', serif; font-size:11px; letter-spacing:1.5px; color:var(--ink-soft); }
+.vial-top .vname svg{ width:13px; height:13px; stroke:var(--blood-deep); fill:none; stroke-width:1.6; }
+.vial-top .vformula{ font-size:10.5px; font-style:italic; color:var(--ink-faint); }
+.vial-vals{ display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+.vial-vals input{
+  width:46px; text-align:center; background:var(--parchment); border:1px solid var(--parchment-line);
+  border-radius:3px; font-family:'Cinzel', serif; font-size:15px; color:var(--ink); padding:3px;
+}
+.vial-vals span{ color:var(--ink-faint); font-size:13px; }
+.vial-bar-bg{
+  height:11px; border-radius:7px; background:rgba(0,0,0,0.08); border:1px solid var(--parchment-line);
+  overflow:hidden;
+}
+.vial-bar-fill{ height:100%; transition:width .3s ease, background .3s ease; }
+
+.corr-controls{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.corr-controls button{
+  width:24px; height:24px; border-radius:50%; background:var(--parchment); border:1px solid var(--parchment-line);
+  color:var(--ink); font-size:14px; cursor:pointer; line-height:1;
+}
+.corr-controls button:hover{ border-color:var(--blood); color:var(--blood-deep); }
+.corr-warn{
+  font-size:11.5px; font-style:italic; color:var(--blood-deep); opacity:0; transition:opacity .3s ease; margin-top:5px;
+}
+.corr-warn.show{ opacity:1; }
+
+.ca-shield{ display:flex; align-items:center; gap:16px; margin-top:6px; }
+.ca-shield svg{ width:56px; height:62px; }
+.ca-shield .calabel{ font-family:'Cinzel', serif; font-size:10px; letter-spacing:1.5px; color:var(--gold); }
+.ca-shield .caformula{ font-size:11px; font-style:italic; color:var(--ink-faint); }
+
+.resist-list{ margin-top:18px; }
+.resist-row{ display:flex; justify-content:space-between; padding:5px 0; font-size:13px; border-bottom:1px dotted var(--parchment-line); color:var(--ink-soft); }
+.resist-row:last-child{ border-bottom:none; }
+.resist-row b{ color:var(--blood-deep); font-weight:600; }
+
+/* legado scroll */
+.legado-scroll{
+  background:rgba(255,255,255,0.18);
+  border:1px solid var(--parchment-line);
+  border-radius:6px;
+  padding:16px 18px 18px;
+}
+.legado-name{ font-family:'Cinzel', serif; font-size:14.5px; color:var(--blood-deep); margin:10px 0 10px; letter-spacing:.4px; }
+.legado-passiva{ font-size:13.5px; margin-bottom:12px; line-height:1.5; }
+.legado-passiva b{ display:block; font-family:'Cinzel', serif; font-size:10px; letter-spacing:1.5px; color:var(--gold); margin-bottom:4px; }
+.legado-abilities{ list-style:none; margin:0; padding:0; }
+.legado-abilities li{ position:relative; padding-left:16px; font-size:13.5px; line-height:1.5; margin-bottom:10px; }
+.legado-abilities li::before{ content:"●"; position:absolute; left:0; top:1px; color:var(--blood); font-size:9px; }
+.legado-abilities li b{ color:var(--gold); }
+
+/* ---------- ABILITIES GRID ---------- */
+.abil-note{ font-size:12.5px; font-style:italic; color:var(--ink-faint); margin-bottom:18px; }
+.abil-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px 30px; margin-bottom:6px; }
+.abil-group h3{
+  display:flex; align-items:center; gap:7px;
+  font-family:'Cinzel', serif; font-size:11px; letter-spacing:1.5px; color:var(--gold); margin:0 0 10px;
+}
+.abil-group h3 svg{ width:14px; height:14px; stroke:var(--blood-deep); fill:none; stroke-width:1.6; }
+.check-item{ display:flex; align-items:flex-start; gap:9px; font-size:13px; line-height:1.45; margin-bottom:9px; }
+.check-item input[type=checkbox]{
+  appearance:none; width:15px; height:15px; min-width:15px; margin-top:2px;
+  border:1px solid var(--ink-faint); border-radius:2px; background:var(--parchment); cursor:pointer; position:relative;
+}
+.check-item input[type=checkbox]:checked{ background:var(--blood-deep); border-color:var(--blood-deep); }
+.check-item input[type=checkbox]:checked::after{
+  content:""; position:absolute; left:4px; top:1px; width:4px; height:8px;
+  border:solid var(--parchment); border-width:0 2px 2px 0; transform:rotate(40deg);
+}
+.check-item b{ color:var(--ink); }
+
+/* ---------- NOTES ---------- */
+.notes-grid{ display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:6px; }
+.ruled{
+  width:100%; min-height:120px; resize:vertical;
+  background:repeating-linear-gradient(transparent, transparent 27px, var(--parchment-line) 28px);
+  border:none; border-top:1px solid var(--ink-faint);
+  font-family:'EB Garamond', serif; font-style:italic; font-size:14.5px; color:var(--ink);
+  padding:10px 4px 0; outline:none; line-height:28px;
+}
+
+/* ---------- REFERENCE ---------- */
+details.ref{ margin-top:10px; }
+details.ref summary{
+  cursor:pointer; font-family:'Cinzel', serif; font-size:11px; letter-spacing:2px; color:var(--gold-bright);
+  padding:10px 0; border-top:1px solid var(--parchment-line);
+}
+details.ref[open] summary{ margin-bottom:14px; }
+.ref-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px 16px; font-size:12.5px; margin-bottom:10px; }
+.ref-grid div{ padding-left:10px; border-left:2px solid var(--parchment-line); }
+.ref-grid b{ display:block; font-family:'Cinzel', serif; font-size:10px; letter-spacing:.8px; color:var(--gold); margin-bottom:3px; }
+.ref-table{ width:100%; font-size:12.5px; border-collapse:collapse; }
+.ref-table th, .ref-table td{ padding:4px 8px; border-bottom:1px dotted var(--parchment-line); text-align:left; }
+.ref-table th{ color:var(--gold); font-family:'Cinzel'; font-size:9.5px; letter-spacing:1px; }
+
+.printbar{ text-align:center; margin-top:28px; display:flex; flex-wrap:wrap; justify-content:center; gap:10px; }
+.printbar button{
+  font-family:'Cinzel', serif; letter-spacing:1.5px; font-size:10.5px;
+  background:transparent; border:1px solid var(--blood-deep); color:var(--blood-deep);
+  padding:11px 18px; border-radius:2px; cursor:pointer; transition:background .2s, color .2s;
+}
+.printbar button:hover{ background:var(--blood-deep); color:var(--parchment); }
+.printbar #saveStatus{ width:100%; }
+
+@media (max-width:760px){
+  .book{ padding:30px 22px; }
+  .identity, .identity.row2{ grid-template-columns:1fr 1fr; }
+  .cols{ grid-template-columns:1fr; }
+  .abil-grid{ grid-template-columns:1fr; }
+  .notes-grid{ grid-template-columns:1fr; }
+  .attr-tile{ width:30%; }
+}
+
+@media print{
+  #sheet-root{ background:#fff; padding:0; }
+  .book{ box-shadow:none; border:1px solid #999; }
+  .printbar, details.ref{ display:none; }
+}
+</style>
+
+<div class="book">
+  <div class="corner c-tl"><svg viewBox="0 0 30 30"><path d="M2 28 V8 Q2 2 8 2 H28"/><circle cx="8" cy="8" r="1.6" fill="var(--gold)"/></svg></div>
+  <div class="corner c-tr"><svg viewBox="0 0 30 30"><path d="M2 28 V8 Q2 2 8 2 H28"/><circle cx="8" cy="8" r="1.6" fill="var(--gold)"/></svg></div>
+  <div class="corner c-bl"><svg viewBox="0 0 30 30"><path d="M2 28 V8 Q2 2 8 2 H28"/><circle cx="8" cy="8" r="1.6" fill="var(--gold)"/></svg></div>
+  <div class="corner c-br"><svg viewBox="0 0 30 30"><path d="M2 28 V8 Q2 2 8 2 H28"/><circle cx="8" cy="8" r="1.6" fill="var(--gold)"/></svg></div>
+
+  <div class="head">
+    <svg class="crest" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="46" fill="#6e1119"/>
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#a9822c" stroke-width="2"/>
+      <circle cx="50" cy="50" r="37" fill="none" stroke="#a9822c" stroke-width="1" opacity="0.7"/>
+      <path d="M50 20 L57 48 L50 80 L43 48 Z" fill="#2c0509" opacity="0.9"/>
+      <path d="M27 50 Q50 36 73 50" stroke="#2c0509" stroke-width="3" fill="none" opacity="0.9"/>
+      <path d="M27 50 Q50 64 73 50" stroke="#2c0509" stroke-width="3" fill="none" opacity="0.9"/>
+    </svg>
+    <div class="eyebrow">🩸 SANGUE &amp; VINHO 🍷</div>
+    <h1>⛧ FICHA ⛧</h1>
+  </div>
+
+  <div class="flourish">
+    <div class="line l1"></div>
+    <svg viewBox="0 0 10 10"><path d="M5 0 L8 5 L5 10 L2 5 Z"/></svg>
+    <div class="line l2"></div>
+  </div>
+
+  <!-- IDENTITY -->
+  <div class="identity">
+    <div class="ledger"><label>Nome do Personagem</label><input type="text" id="nomePersonagem" placeholder="Ex: Yren das Cinzas"></div>
+    <div class="ledger"><label>Nome do Jogador</label><input type="text" id="nomeJogador" placeholder="Seu nome"></div>
+    <div class="ledger"><label>Nível</label><input type="number" id="nivel" value="1" min="1" max="12" oninput="updateAll()"></div>
+    <div class="ledger"><label>Proficiência</label><div class="static" id="profDisplay">+2</div></div>
+    <div class="ledger"><label>XP p/ Próx. Nível</label><div class="static" id="xpNext" style="font-size:16px;">100</div></div>
+  </div>
+  <div class="identity row2">
+    <div class="ledger">
+      <label>Legado</label>
+      <select id="legadoSelect" onchange="renderLegado()">
+        <option value="vargas">Vargas — Dano</option>
+        <option value="cairo">Cairo — Defesa</option>
+        <option value="tiago">Tiago — Execução</option>
+        <option value="carlos">Carlos — Rituais</option>
+        <option value="rafa">Rafa — Sanidade / Controle</option>
+      </select>
+    </div>
+    <div class="ledger"><label>XP Atual</label><input type="number" id="xpAtual" value="0" min="0" oninput="updateAll()"></div>
+    <div class="ledger"><label>Origem / marca do Sangue</label><input type="text" id="origemSangue" placeholder="Linhagem, ritual de injeção, sobrevivência em Valheim..."></div>
+  </div>
+
+
+  <!-- BÔNUS DE NÍVEL -->
+  <div id="lvlBonusBar" style="display:none; margin: -10px 0 22px; padding:12px 18px; background:rgba(124,26,36,0.07); border:1px solid rgba(138,105,31,.3); border-radius:8px;">
+    <div style="font-family:'Cinzel', serif; font-size:10px; letter-spacing:2px; color:var(--gold); margin-bottom:8px;">BÔNUS ACUMULADOS POR NÍVEL</div>
+    <div style="display:flex; gap:28px; flex-wrap:wrap; font-size:13px; color:var(--ink-soft);">
+      <span>❤ HP bônus: <b id="lvlHpBonus" style="color:var(--blood-deep);">+0</b></span>
+      <span>🧠 Sanidade bônus: <b id="lvlSanBonus" style="color:var(--blood-deep);">+0</b></span>
+      <span>⚔ Pts de Atributo ganhos: <b id="lvlAttrBonus" style="color:var(--blood-deep);">+0</b></span>
+      <span>🌟 Habilidades Únicas: <b id="lvlAbilBonus" style="color:var(--blood-deep);">—</b></span>
+    </div>
+    <div id="lvlXpProgress" style="margin-top:10px;">
+      <div style="display:flex; justify-content:space-between; font-size:11px; font-style:italic; color:var(--ink-faint); margin-bottom:4px;">
+        <span id="lvlXpLabel">XP: 0 / 100</span>
+        <span id="lvlMaxNote"></span>
+      </div>
+      <div style="height:8px; border-radius:6px; background:rgba(0,0,0,0.08); border:1px solid var(--parchment-line); overflow:hidden;">
+        <div id="lvlXpBar" style="height:100%; transition:width .4s ease; background:linear-gradient(90deg, var(--gold), var(--gold-bright));"></div>
+      </div>
+    </div>
+  </div>
+  <!-- ATRIBUTOS -->
+  <div class="section-label">
+    <svg viewBox="0 0 20 20"><path d="M10 2 L13 17 L10 12 L7 17 Z"/></svg>
+    ATRIBUTOS
+    <div class="rule"></div>
+  </div>
+
+  <div class="attrs">
+    <div class="attr-tile">
+      <svg viewBox="0 0 24 24"><path d="M12 2 V15 M9 15 H15 M12 15 V20 M9 6 H15"/></svg>
+      <div class="aname">FORÇA</div>
+      <input type="number" id="for" value="1" min="1" max="10" oninput="updateAll()">
+      <div class="eqp-bonus" id="forEqp"></div>
+      <div class="acap">Dano corpo a corpo, testes físicos</div>
+    </div>
+    <div class="attr-tile">
+      <svg viewBox="0 0 24 24"><path d="M3 18 Q9 4 21 4 Q19 12 12 14 Q9 15 7 19 M12 14 L7 19"/></svg>
+      <div class="aname">AGILIDADE</div>
+      <input type="number" id="agi" value="1" min="1" max="10" oninput="updateAll()">
+      <div class="eqp-bonus" id="agiEqp"></div>
+      <div class="acap">Defesa, iniciativa, ataque à distância</div>
+    </div>
+    <div class="attr-tile">
+      <svg viewBox="0 0 24 24"><path d="M12 20 C4 14 2 9 6 6 C9 4 12 6 12 9 C12 6 15 4 18 6 C22 9 20 14 12 20 Z"/></svg>
+      <div class="aname">VIGOR</div>
+      <input type="number" id="vig" value="1" min="1" max="10" oninput="updateAll()">
+      <div class="eqp-bonus" id="vigEqp"></div>
+      <div class="acap">Vida e resistência física</div>
+    </div>
+    <div class="attr-tile">
+      <svg viewBox="0 0 24 24"><path d="M2 12 Q12 3 22 12 Q12 21 2 12 Z"/><circle cx="12" cy="12" r="3"/></svg>
+      <div class="aname">INTELECTO</div>
+      <input type="number" id="int" value="1" min="1" max="10" oninput="updateAll()">
+      <div class="eqp-bonus" id="intEqp"></div>
+      <div class="acap">Estratégia, rituais, análise</div>
+    </div>
+    <div class="attr-tile">
+      <svg viewBox="0 0 24 24"><path d="M3 18 L5 9 L9 13 L12 6 L15 13 L19 9 L21 18 Z"/></svg>
+      <div class="aname">PRESENÇA</div>
+      <input type="number" id="pre" value="1" min="1" max="10" oninput="updateAll()">
+      <div class="eqp-bonus" id="preEqp"></div>
+      <div class="acap">Resistência mental, influência</div>
+    </div>
+    <div class="attr-tile">
+      <svg viewBox="0 0 24 24"><path d="M12 2 C12 2 5 12 5 16 C5 19.5 8.2 22 12 22 C15.8 22 19 19.5 19 16 C19 12 12 2 12 2 Z"/></svg>
+      <div class="aname">SANGUE</div>
+      <input type="number" id="san" value="1" min="1" max="10" oninput="updateAll()">
+      <div class="eqp-bonus" id="sanEqp"></div>
+      <div class="acap">Controle da Corrupção, poderes Carmesins</div>
+    </div>
+  </div>
+  <div class="attr-total">PONTOS DISTRIBUÍDOS: <b id="attrTotal">6</b> &nbsp;·&nbsp; 12 no nível 1, máximo 3 por atributo</div>
+
+  <!-- PERÍCIAS -->
+  <div class="section-label">
+    <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+    PERÍCIAS
+    <div class="rule"></div>
+  </div>
+  <div class="abil-note">Escolha 3 perícias para ficar Treinado na criação (dá o bônus de Proficiência + a função especial). Nos níveis 4, 8 e 12 você pode trocar uma perícia treinada por outra, ou ganhar uma adicional. &nbsp;·&nbsp; Treinadas: <b id="pericTotal">0</b></div>
+
+  <div class="abil-grid">
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M12 2 V15 M9 15 H15 M12 15 V20 M9 6 H15"/></svg>FORÇA</h3>
+      <div class="check-item"><input type="checkbox" id="pericMaoPesada" class="peric" onchange="updatePericias()"><span><b>Mão Pesada</b> — ao agarrar/prender um alvo, ele sofre 1D4 de dano por turno até escapar.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericCouroCurtido" class="peric" onchange="updatePericias()"><span><b>Couro Curtido</b> — carrega o dobro de peso normal; arrasta objetos pesados ou leva aliado caído nas costas sem gastar ação extra.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericFuriaDesespero" class="peric" onchange="updatePericias()"><span><b>Fúria do Desespero</b> — com Vitalidade abaixo de 1/3 do máximo, ataques corpo a corpo causam +1D4 de dano adicional.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M3 18 Q9 4 21 4 Q19 12 12 14 Q9 15 7 19 M12 14 L7 19"/></svg>AGILIDADE</h3>
+      <div class="check-item"><input type="checkbox" id="pericPassoSombra" class="peric" onchange="updatePericias()"><span><b>Passo de Sombra</b> — pode agir um turno totalmente sem ser detectado; o ataque seguinte causa +1D6 de dano extra.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericMaoRapida" class="peric" onchange="updatePericias()"><span><b>Mão Rápida</b> — rouba item pequeno, solta amarra ou desarma armadilha simples usando a ação bônus.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericSaltoVibora" class="peric" onchange="updatePericias()"><span><b>Salto da Víbora</b> — 1x/combate, gasta a reação para anular completamente um ataque contra você.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M12 20 C4 14 2 9 6 6 C9 4 12 6 12 9 C12 6 15 4 18 6 C22 9 20 14 12 20 Z"/></svg>VIGOR</h3>
+      <div class="check-item"><input type="checkbox" id="pericSangueEspesso" class="peric" onchange="updatePericias()"><span><b>Sangue Espesso</b> — se falhar teste contra veneno/doença, sofre só a metade do efeito.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericUltimoSuspiro" class="peric" onchange="updatePericias()"><span><b>Último Suspiro</b> — 1x/combate, ao ser reduzido a 0 HP, gasta a reação para ficar com 1 HP em vez de cair Inconsciente.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericCicatrizViva" class="peric" onchange="updatePericias()"><span><b>Cicatriz Viva</b> — durante um descanso curto, recupera 1D4 de Vitalidade adicional além do normal.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M2 12 Q12 3 22 12 Q12 21 2 12 Z"/><circle cx="12" cy="12" r="3"/></svg>INTELECTO</h3>
+      <div class="check-item"><input type="checkbox" id="pericOlhoClinico" class="peric" onchange="updatePericias()"><span><b>Olho Clínico</b> — percebe pistas, armadilhas ou mecanismos escondidos automaticamente em áreas relevantes.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericLeituraCarmesim" class="peric" onchange="updatePericias()"><span><b>Leitura Carmesim</b> — ao ver alguém conjurando, identifica de imediato se é Carmesim, Arcana ou Proibida, e se é hostil.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericMenteFria" class="peric" onchange="updatePericias()"><span><b>Mente Fria</b> — 1x/combate, ação bônus dá a um aliado +1D4 no próximo teste ou ataque, mesmo a distância.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M3 18 L5 9 L9 13 L12 6 L15 13 L19 9 L21 18 Z"/></svg>PRESENÇA</h3>
+      <div class="check-item"><input type="checkbox" id="pericMarcaRespeito" class="peric" onchange="updatePericias()"><span><b>Marca de Respeito</b> — aliados que veem você agir em combate recebem +1 em Resistência Mental enquanto estiver consciente e por perto (não acumula com Aura Motivadora).</span></div>
+      <div class="check-item"><input type="checkbox" id="pericOlharQuebra" class="peric" onchange="updatePericias()"><span><b>Olhar que Quebra</b> — inimigos com menos de 1/3 da Vitalidade têm chance de fugir ou hesitar quando ameaçados.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericVozComando" class="peric" onchange="updatePericias()"><span><b>Voz de Comando</b> — 1x/combate, ação bônus dá uma ordem a um aliado, permitindo que ele use a própria reação fora da vez dele.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M12 2 C12 2 5 12 5 16 C5 19.5 8.2 22 12 22 C15.8 22 19 19.5 19 16 C19 12 12 2 12 2 Z"/></svg>SANGUE</h3>
+      <div class="check-item"><input type="checkbox" id="pericPulsoContido" class="peric" onchange="updatePericias()"><span><b>Pulso Contido</b> — ao falhar teste de controle de Corrupção, ganha só a metade da Corrupção que ganharia (mínimo 1).</span></div>
+      <div class="check-item"><input type="checkbox" id="pericVeiaAberta" class="peric" onchange="updatePericias()"><span><b>Veia Aberta</b> — reduz em 1 o tempo de preparação de qualquer ritual Carmesim que conjurar.</span></div>
+      <div class="check-item"><input type="checkbox" id="pericFaroProfano" class="peric" onchange="updatePericias()"><span><b>Faro Profano</b> — sente a presença de Corrupção Carmesim ou de criaturas do Sangue escondidas em até 9m.</span></div>
+    </div>
+  </div>
+
+  <!-- EQUIPAMENTO MÁGICO: ESCUDO + ARTEFATOS -->
+  <div class="section-label">
+    <svg viewBox="0 0 20 20"><path d="M10 2 L18 6 V13 C18 17.5 14.5 19.8 10 21 C5.5 19.8 2 17.5 2 13 V6 Z"/></svg>
+    EQUIPAMENTO MÁGICO
+    <div class="rule"></div>
+  </div>
+  <div class="gear-grid">
+    <div class="gear-card">
+      <div class="gear-title">🔰 ESCUDO</div>
+      <label>Nome</label>
+      <input type="text" id="shieldName" placeholder="Ex: Escudo de Aço">
+      <label>Bônus de CA</label>
+      <input type="number" id="shieldCA" value="0" oninput="updateAll()">
+    </div>
+    <div class="gear-card">
+      <div class="gear-title">⚔️ ARMA</div>
+      <label>Nome</label>
+      <input type="text" id="weaponName" placeholder="Ex: Machado de Combate">
+      <label>Dano</label>
+      <input type="text" id="weaponDano" placeholder="Ex: 1d10">
+      <label>Tipo Elemental</label>
+      <select id="weaponElem">
+        <option value="">Físico / Neutro</option>
+        <option value="Fogo">🔥 Fogo</option>
+        <option value="Gelo">❄️ Gelo</option>
+        <option value="Raio">⚡ Raio</option>
+        <option value="Necrótico">💀 Necrótico</option>
+        <option value="Sangue">🩸 Sangue</option>
+        <option value="Psíquico">🌀 Psíquico</option>
+        <option value="Sagrado">✨ Sagrado</option>
+      </select>
+      <label>Bônus de Atributo <i style="font-style:italic; opacity:.8;">(raras+)</i></label>
+      <select id="weaponAttr" onchange="updateAll()">
+        <option value="">— nenhum —</option>
+        <option value="for">Força</option>
+        <option value="agi">Agilidade</option>
+        <option value="vig">Vigor</option>
+        <option value="int">Intelecto</option>
+        <option value="pre">Presença</option>
+        <option value="san">Sangue</option>
+      </select>
+      <input type="number" id="weaponBonus" value="0" oninput="updateAll()" style="margin-top:6px;">
+    </div>
+    <div class="gear-card">
+      <div class="gear-title">🛡️ ARMADURA</div>
+      <label>Nome</label>
+      <input type="text" id="armorName" placeholder="Ex: Traje Selvagem">
+      <label>Tipo</label>
+      <select id="armorTipo" onchange="updateAll()">
+        <option value="Leve">Leve (+1 CA)</option>
+        <option value="Média">Média (+2 CA)</option>
+        <option value="Pesada">Pesada (+3 CA)</option>
+      </select>
+      <div class="gear-note" id="armorPenaltyNote" style="margin:4px 0 0; text-align:left; font-size:10.5px;"></div>
+      <label>Resistência Elemental</label>
+      <select id="armorResist">
+        <option value="">Nenhuma</option>
+        <option value="Fogo">🔥 Fogo</option>
+        <option value="Gelo">❄️ Gelo</option>
+        <option value="Raio">⚡ Raio</option>
+        <option value="Necrótico">💀 Necrótico</option>
+        <option value="Sangue">🩸 Sangue</option>
+        <option value="Psíquico">🌀 Psíquico</option>
+        <option value="Sagrado">✨ Sagrado</option>
+      </select>
+      <label>Bônus de Atributo <i style="font-style:italic; opacity:.8;">(raras+)</i></label>
+      <select id="armorAttr" onchange="updateAll()">
+        <option value="">— nenhum —</option>
+        <option value="for">Força</option>
+        <option value="agi">Agilidade</option>
+        <option value="vig">Vigor</option>
+        <option value="int">Intelecto</option>
+        <option value="pre">Presença</option>
+        <option value="san">Sangue</option>
+      </select>
+      <input type="number" id="armorBonus" value="0" oninput="updateAll()" style="margin-top:6px;">
+    </div>
+    <div class="gear-card">
+      <div class="gear-title">🏺 ARTEFATO I</div>
+      <label>Nome</label>
+      <input type="text" id="art1Name" placeholder="Ex: Anel de Sangue">
+      <label>Atributo</label>
+      <select id="art1Attr" onchange="updateAll()">
+        <option value="for">Força</option>
+        <option value="agi">Agilidade</option>
+        <option value="vig">Vigor</option>
+        <option value="int">Intelecto</option>
+        <option value="pre">Presença</option>
+        <option value="san">Sangue</option>
+      </select>
+      <label>Bônus</label>
+      <input type="number" id="art1Bonus" value="0" oninput="updateAll()">
+    </div>
+    <div class="gear-card">
+      <div class="gear-title">🏺 ARTEFATO II</div>
+      <label>Nome</label>
+      <input type="text" id="art2Name" placeholder="Ex: Talismã Profano">
+      <label>Atributo</label>
+      <select id="art2Attr" onchange="updateAll()">
+        <option value="for">Força</option>
+        <option value="agi">Agilidade</option>
+        <option value="vig">Vigor</option>
+        <option value="int">Intelecto</option>
+        <option value="pre">Presença</option>
+        <option value="san">Sangue</option>
+      </select>
+      <label>Bônus</label>
+      <input type="number" id="art2Bonus" value="0" oninput="updateAll()">
+    </div>
+  </div>
+  <div class="gear-note">Escudo e Armadura somam diretamente à CA, conforme o tipo escolhido. Arma, Armadura e Artefatos só somam bônus de atributo extra se o campo "Bônus de Atributo" for preenchido — use apenas em itens Raros ou superiores. O resto (dano, tipo elemental, resistência) é só anotação.</div>
+
+  <!-- RECURSOS + LEGADO -->
+  <div class="cols">
+    <div>
+      <div class="section-label">
+        <svg viewBox="0 0 20 20"><path d="M12 2 C12 2 5 12 5 16 C5 19.5 8.2 22 12 22 C15.8 22 19 19.5 19 16 C19 12 12 2 12 2 Z"/></svg>
+        RECURSOS &amp; DEFESA
+        <div class="rule"></div>
+      </div>
+
+      <div class="vial">
+        <div class="vial-top">
+          <span class="vname"><svg viewBox="0 0 24 24"><path d="M12 20 C4 14 2 9 6 6 C9 4 12 6 12 9 C12 6 15 4 18 6 C22 9 20 14 12 20 Z"/></svg>VITALIDADE</span>
+          <span class="vformula" id="hpFormula">12 + 4×Vigor + bônus nível</span>
+        </div>
+        <div class="vial-vals"><input type="number" id="hpAtual" value="22"><span>/</span><span id="hpMax">22</span></div>
+        <div class="vial-bar-bg"><div class="vial-bar-fill" id="hpBar" style="width:100%; background:linear-gradient(90deg,#8f1f2a,#c23244);"></div></div>
+      </div>
+
+      <div class="vial">
+        <div class="vial-top">
+          <span class="vname"><svg viewBox="0 0 24 24"><path d="M2 12 Q12 3 22 12 Q12 21 2 12 Z"/><circle cx="12" cy="12" r="3"/></svg>SANIDADE</span>
+          <span class="vformula" id="sanFormula">8 + PRE + INT + bônus nível</span>
+        </div>
+        <div class="vial-vals"><input type="number" id="sanAtual" value="10"><span>/</span><span id="sanMax">10</span></div>
+        <div class="vial-bar-bg"><div class="vial-bar-fill" id="sanBar" style="width:100%; background:linear-gradient(90deg,#5c6e7a,#8b9aa3);"></div></div>
+      </div>
+
+      <div class="vial">
+        <div class="vial-top">
+          <span class="vname"><svg viewBox="0 0 24 24"><path d="M12 2 V15 M12 2 L8 6 M12 2 L16 6"/></svg>CORRUPÇÃO CARMESIM</span>
+          <span class="vformula">1 a 20</span>
+        </div>
+        <div class="corr-controls">
+          <button onclick="changeCorr(-1)">–</button>
+          <input type="number" id="corr" value="1" min="1" max="20" oninput="updateCorr()" style="width:46px; text-align:center; background:var(--parchment); border:1px solid var(--parchment-line); border-radius:3px; font-family:'Cinzel'; font-size:15px; color:var(--ink); padding:3px;">
+          <button onclick="changeCorr(1)">+</button>
+          <span style="color:var(--ink-faint); font-size:12.5px;">/ 20</span>
+        </div>
+        <div class="vial-bar-bg"><div class="vial-bar-fill" id="corrBar" style="width:5%; background:#6b8f4e;"></div></div>
+        <div class="corr-warn" id="corrWarn">⚠ Corrupção máxima — Teste Final de Sangue. Falha = Profanado.</div>
+      </div>
+
+      <div class="ca-shield">
+        <svg viewBox="0 0 60 68">
+          <path d="M30 2 L56 12 V34 C56 50 44 60 30 66 C16 60 4 50 4 34 V12 Z" fill="#dfc99a" stroke="#8a691f" stroke-width="2"/>
+          <text x="30" y="42" text-anchor="middle" font-family="Cinzel, serif" font-size="22" font-weight="700" fill="#4a0a14" id="caValueSvg">11</text>
+        </svg>
+        <div>
+          <div class="calabel">CLASSE DE ARMADURA</div>
+          <div class="caformula">10 + Agilidade</div>
+        </div>
+      </div>
+
+      <div class="resist-list">
+        <div class="resist-row"><span>Resistência Física <i style="font-style:italic; color:var(--ink-faint);">(Vigor)</i></span><b id="resFis">1</b></div>
+        <div class="resist-row"><span>Resistência Mental <i style="font-style:italic; color:var(--ink-faint);">(Presença)</i></span><b id="resMen">1</b></div>
+        <div class="resist-row"><span>Resistência à Corrupção <i style="font-style:italic; color:var(--ink-faint);">(Sangue)</i></span><b id="resCorr">1</b></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label">
+        <svg viewBox="0 0 20 20"><path d="M3 18 L5 9 L9 13 L12 6 L15 13 L19 9 L21 18 Z"/></svg>
+        LEGADO
+        <div class="rule"></div>
+      </div>
+      <div class="legado-scroll" id="legadoCard"></div>
+    </div>
+  </div>
+
+  <!-- HABILIDADES ÚNICAS -->
+  <div class="section-label" style="margin-top:34px;">
+    <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+    HABILIDADES ÚNICAS
+    <div class="rule"></div>
+  </div>
+  <div class="abil-note">Aprendidas nos níveis 4, 8 e 12 — marque conforme seu Mestiço evolui.</div>
+
+  <div class="abil-grid">
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M12 2 V15 M9 15 H15 M12 15 V20 M9 6 H15"/></svg>FORÇA</h3>
+      <div class="check-item"><input type="checkbox" id="abilGolpePreciso"><span><b>Golpe Preciso</b> — +1D4 em ATQ contra inimigos desequilibrados ou caídos.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilSegurarTerreno"><span><b>Segurar Terreno</b> — ao terminar o movimento perto de um inimigo, pode forçá-lo a se mover metade do movimento.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilImpulsoAtaque"><span><b>Impulso de Ataque</b> — 1x/turno, ao acertar, empurra o alvo em 3m.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M3 18 Q9 4 21 4 Q19 12 12 14 Q9 15 7 19 M12 14 L7 19"/></svg>AGILIDADE</h3>
+      <div class="check-item"><input type="checkbox" id="abilTiroConcentrado"><span><b>Tiro Concentrado</b> — se não se mover no turno, +1D4 de dano adicional.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilReflexoAgil"><span><b>Reflexo Ágil</b> — move-se até 3m ao levar dano (gasta reação).</span></div>
+      <div class="check-item"><input type="checkbox" id="abilEsquivaCalculada"><span><b>Esquiva Calculada</b> — reduz dano à distância recebido em 1D4.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M12 20 C4 14 2 9 6 6 C9 4 12 6 12 9 C12 6 15 4 18 6 C22 9 20 14 12 20 Z"/></svg>VIGOR</h3>
+      <div class="check-item"><input type="checkbox" id="abilFortitude"><span><b>Fortitude</b> — 1x/combate, reduz qualquer dano recebido pela metade.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilPulsoVital"><span><b>Pulso Vital</b> — 2x/combate, cura 1D6 como ação bônus.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilResistenciaNatural"><span><b>Resistência Natural</b> — dano ≤1D6 sofrido é reduzido em 1.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M2 12 Q12 3 22 12 Q12 21 2 12 Z"/><circle cx="12" cy="12" r="3"/></svg>INTELECTO</h3>
+      <div class="check-item"><input type="checkbox" id="abilRitualista"><span><b>Ritualista</b> — 1x/turno, gaste 1 de Sanidade ou Vitalidade para +1D4 de dano ou +1 no efeito de controle.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilPreparacaoRitual"><span><b>Preparação de Ritual</b> — reduz em 1 o tempo de preparação de ritual.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilContraRitual"><span><b>Contra-Ritual</b> — 1x/combate, anula ritual inimigo (CD de Intelecto do adversário).</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M3 18 L5 9 L9 13 L12 6 L15 13 L19 9 L21 18 Z"/></svg>PRESENÇA</h3>
+      <div class="check-item"><input type="checkbox" id="abilIntimidacao"><span><b>Intimidação</b> — inimigos têm desvantagem em testes de Sanidade.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilAuraMotivadora"><span><b>Aura Motivadora</b> — aliados a 6m: +1 em Resistência Mental e Iniciativa (não acumula).</span></div>
+      <div class="check-item"><input type="checkbox" id="abilControleSituacional"><span><b>Controle Situacional</b> — 1x/turno, reduz em 1 a eficiência de habilidades inimigas próximas.</span></div>
+    </div>
+    <div class="abil-group">
+      <h3><svg viewBox="0 0 24 24"><path d="M12 2 C12 2 5 12 5 16 C5 19.5 8.2 22 12 22 C15.8 22 19 19.5 19 16 C19 12 12 2 12 2 Z"/></svg>SANGUE</h3>
+      <div class="check-item"><input type="checkbox" id="abilSangueCanalizado"><span><b>Sangue Canalizado</b> — reduz o custo de HP das conjurações em 1 (nunca abaixo de 1).</span></div>
+      <div class="check-item"><input type="checkbox" id="abilExplosaoCarmesim"><span><b>Explosão Carmesim</b> — gasta 1 ponto de Corrupção para +1D4 de dano.</span></div>
+      <div class="check-item"><input type="checkbox" id="abilReforcoRubro"><span><b>Reforço Rubro</b> — 1x/turno, ao sofrer dano, gaste até 2 de Vitalidade para +1D4 de dano carmesim no próximo ataque/magia.</span></div>
+    </div>
+  </div>
+
+  <!-- NOTAS -->
+  <div class="section-label" style="margin-top:30px;">
+    <svg viewBox="0 0 20 20"><path d="M4 4 H16 V16 H4 Z"/></svg>
+    EQUIPAMENTO &amp; ANOTAÇÕES
+    <div class="rule"></div>
+  </div>
+  <div class="notes-grid">
+    <div>
+      <label style="font-family:'Cinzel'; font-size:9px; letter-spacing:1.8px; color:var(--gold);">ARMAS, ITENS, LOOT</label>
+      <textarea class="ruled" id="notesLoot" placeholder="Armas, armaduras, poções, itens mágicos ou rituais carregados..."></textarea>
+    </div>
+    <div>
+      <label style="font-family:'Cinzel'; font-size:9px; letter-spacing:1.8px; color:var(--gold);">VÍNCULOS &amp; MARCAS</label>
+      <textarea class="ruled" id="notesVinculos" placeholder="Vínculos, traumas, dívidas, contatos, marcas do Sangue..."></textarea>
+    </div>
+  </div>
+
+  <!-- REFERÊNCIA -->
+  <details class="ref">
+    <summary>REFERÊNCIA RÁPIDA — ROLAGENS &amp; COMBATE</summary>
+    <div class="ref-grid">
+      <div><b>ROLAGEM BASE</b>1d20 + Atributo (exceto dano)</div>
+      <div><b>CRÍTICO</b>20 natural = acerto garantido, dano total</div>
+      <div><b>CORPO A CORPO</b>Rola Força — dano por atributo e/ou arma</div>
+      <div><b>À DISTÂNCIA</b>Rola Agilidade — também define Iniciativa e CA base</div>
+      <div><b>MAGIAS/RITUAIS</b>Rola Intelecto — custa Vitalidade (Carmesim/Corporal), Sanidade (Arcana/Mental) ou ambos (Proibida); custo mínimo 1</div>
+      <div><b>PODERES CARMESINS</b>Sangue: falha pode gerar Corrupção. Rituais com energia Carmesim podem exigir também um teste de Sangue</div>
+      <div><b>CD (DIFICULDADE)</b>10 + atributo de quem impõe o teste de resistência</div>
+    </div>
+  </details>
+
+  <details class="ref">
+    <summary>REFERÊNCIA RÁPIDA — LOOT (1D12) &amp; XP POR NÍVEL</summary>
+    <div class="notes-grid" style="margin-top:0;">
+      <table class="ref-table">
+        <tr><th>Rolagem</th><th>Raridade</th></tr>
+        <tr><td>1–4</td><td>Comum</td></tr>
+        <tr><td>5–7</td><td>Incomum</td></tr>
+        <tr><td>8–9</td><td>Raro</td></tr>
+        <tr><td>10</td><td>Épico</td></tr>
+        <tr><td>11</td><td>Lendário</td></tr>
+        <tr><td>12</td><td>Profano</td></tr>
+      </table>
+      <table class="ref-table">
+        <tr><th>Nível</th><th>XP necessária</th></tr>
+        <tr><td>1</td><td>0</td></tr><tr><td>2</td><td>100</td></tr><tr><td>3</td><td>250</td></tr>
+        <tr><td>4</td><td>450</td></tr><tr><td>5</td><td>700</td></tr><tr><td>6</td><td>1000</td></tr>
+        <tr><td>7</td><td>1350</td></tr><tr><td>8</td><td>1750</td></tr><tr><td>9</td><td>2200</td></tr>
+        <tr><td>10</td><td>2700</td></tr><tr><td>11</td><td>3250</td></tr><tr><td>12</td><td>3850</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="ref">
+    <summary>REFERÊNCIA RÁPIDA — SANIDADE BAIXA &amp; COLAPSO MENTAL</summary>
+    <div class="notes-grid" style="margin-top:0;">
+      <table class="ref-table">
+        <tr><th>Sanidade está...</th><th>Efeito</th></tr>
+        <tr><td>≤ 50% do máximo</td><td>–1 em testes de Presença e Intelecto; alucinações leves</td></tr>
+        <tr><td>≤ 25% do máximo</td><td>–2 em Presença e Intelecto; mais fácil ser controlado/assustado</td></tr>
+        <tr><td>0</td><td>Colapso Mental imediato (1d6 abaixo); Sanidade trava em 0 até recuperar</td></tr>
+      </table>
+      <table class="ref-table">
+        <tr><th>1D6</th><th>Colapso Mental</th></tr>
+        <tr><td>1</td><td>Catatonia — fica Pasmo, não age nem reage na rodada</td></tr>
+        <tr><td>2</td><td>Fúria Cega — ataca o alvo mais próximo, aliado ou inimigo</td></tr>
+        <tr><td>3</td><td>Pânico — usa o movimento para fugir do combate</td></tr>
+        <tr><td>4</td><td>Visões Carmesins — +1D4 de Corrupção, mas age normalmente</td></tr>
+        <tr><td>5</td><td>Dissociação — sem reações até o fim do próximo turno</td></tr>
+        <tr><td>6</td><td>Lucidez Forçada — recupera 1D4 Sanidade, sofre 1D4 dano psíquico</td></tr>
+      </table>
+    </div>
+    <div class="gear-note" style="margin-top:14px;">Se a Sanidade chegar a 0 com Corrupção já em 15+, ganha +1 de Corrupção automaticamente. Sanidade só recupera com descanso longo (1D4), terapia, ritual de cura mental ou habilidades específicas — não recupera sozinha em combate.</div>
+  </details>
+
+  <div class="printbar">
+    <button onclick="salvarLocal(true)">💾 SALVAR NESTE DISPOSITIVO</button>
+    <button onclick="exportarArquivo()">⬇ EXPORTAR ARQUIVO (.json)</button>
+    <button onclick="document.getElementById('importFileInput').click()">⬆ IMPORTAR ARQUIVO</button>
+    <button onclick="limparFicha()">🗑 LIMPAR FICHA</button>
+    <button onclick="window.print()">IMPRIMIR / SALVAR PDF</button>
+    <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importarArquivo(event)">
+    <div id="saveStatus" style="margin-top:10px; font-size:11.5px; font-style:italic; color:var(--ink-faint);"></div>
+  </div>
+</div>
+
+<script>
+const legados = {
+  vargas: { name:"VARGAS — Foco em Dano",
+    passiva:"Ao acertar o mesmo alvo 2 vezes seguidas, ganha +2 de dano.",
+    abilities:["<b>Golpe Intenso</b> — 1x por turno, golpe forte: +1D4 de dano.",
+      "<b>Investida</b> — 1x por combate, investida causando 2D8 de dano; alvo deve passar na sua CD de Força ou cai no chão."]},
+  cairo: { name:"CAIRO — Foco em Defesa",
+    passiva:"Ao acertar um alvo, marca com a Benção Divina: adiciona ou reduz 1D4 de dano contra esse alvo no próximo turno.",
+    abilities:["<b>Análise de Fraqueza</b> — 1x a cada 3 turnos, analisa inimigo a até 9m, rola 1D6: (1–2) –2 na Defesa; (3–4) próximo ataque +1D6; (5–6) sem reações.",
+      "<b>Reposicionamento Calculado</b> — 1x a cada 2 turnos, troca de posição com aliado ou move inimigo 3m (resistência nega). Desvantagem tática = +1D4 no próximo ataque de Cairo."]},
+  tiago: { name:"TIAGO — Foco em Execução",
+    passiva:"Recebe +1 de ATQ contra inimigos que ainda não agiram em combate.",
+    abilities:["<b>Golpe Preciso</b> — 1x por turno, causa +1D4 de dano adicional a quem já recebeu dano."]},
+  carlos: { name:"CARLOS — Foco em Rituais e Manipulação de Sangue",
+    passiva:"Sempre que perder HP para conjurar uma magia, reduz o custo em 1 (mínimo 1).",
+    abilities:["<b>Hemofluxo</b> — 1x por turno, ao conjurar, ganhe +1D4 no dano ou +1 na CD, sofrendo 1 de dano adicional."]},
+  rafa: { name:"RAFA — Foco em Sanidade e Controle Mental",
+    passiva:"Quando um inimigo a até 9m falha em resistência mental ou sofre dano psíquico: recupere 1D4 de Sanidade OU imponha –1 em ataques do alvo (acumula até –2; perde redutores sem pressão mental por 1 turno).",
+    abilities:["<b>Olhar do Abismo</b> — 1x por turno, inimigo a até 9m faz resistência mental. Falha: 1D6 de dano psíquico + Perturbado (–1). Falha crítica: sem reações."]}
+};
+
+function renderLegado(){
+  const l = legados[document.getElementById('legadoSelect').value];
+  document.getElementById('legadoCard').innerHTML =
+    '<div class="legado-name">'+l.name+'</div>'+
+    '<div class="legado-passiva"><b>PASSIVA</b>'+l.passiva+'</div>'+
+    '<ul class="legado-abilities">'+l.abilities.map(a=>'<li>'+a+'</li>').join('')+'</ul>';
+}
+
+function updatePericias(){
+  const checked = document.querySelectorAll('.peric:checked').length;
+  document.getElementById('pericTotal').textContent = checked;
+}
+
+function profByLevel(lvl){ if(lvl>=12) return 5; if(lvl>=8) return 4; if(lvl>=4) return 3; return 2; }
+// XP acumulada para atingir cada nível (índice = nível alvo)
+const xpTable = [0, 0, 100, 250, 450, 700, 1000, 1350, 1750, 2200, 2700, 3250, 3850];
+
+// Bônus acumulados de nível: ao subir de nível, ganha +2 HP, +1 Sanidade, +2 pts atributo
+// Os bônus começam a contar a partir do nível 2 (quando se sobe pela primeira vez)
+function lvlBonusHP(lvl)   { return Math.max(0, lvl - 1) * 2; }
+function lvlBonusSan(lvl)  { return Math.max(0, lvl - 1) * 1; }
+function lvlBonusAttr(lvl) { return Math.max(0, lvl - 1) * 2; }
+function lvlAbilidades(lvl){
+  const list = [];
+  if(lvl >= 4)  list.push('Nível 4');
+  if(lvl >= 8)  list.push('Nível 8');
+  if(lvl >= 12) list.push('Nível 12');
+  return list.length ? list.join(', ') : '—';
+}
+
+function getArtBonus(attrKey){
+  const v = id => parseInt(document.getElementById(id).value)||0;
+  let total = 0;
+  if(document.getElementById('art1Attr').value === attrKey) total += v('art1Bonus');
+  if(document.getElementById('art2Attr').value === attrKey) total += v('art2Bonus');
+  if(document.getElementById('weaponAttr').value === attrKey) total += v('weaponBonus');
+  if(document.getElementById('armorAttr').value === attrKey) total += v('armorBonus');
+  return total;
+}
+
+function updateAll(){
+  const v = id => parseInt(document.getElementById(id).value)||0;
+  const FOR=v('for'), AGI=v('agi'), VIG=v('vig'), INT=v('int'), PRE=v('pre'), SAN=v('san');
+  document.getElementById('attrTotal').textContent = FOR+AGI+VIG+INT+PRE+SAN;
+
+  // bônus de Artefatos por atributo
+  const bFOR = getArtBonus('for'), bAGI = getArtBonus('agi'), bVIG = getArtBonus('vig'),
+        bINT = getArtBonus('int'), bPRE = getArtBonus('pre'), bSAN = getArtBonus('san');
+  const shieldCA = v('shieldCA');
+  const armorTipo = document.getElementById('armorTipo').value;
+  const armorCAMap = { 'Leve':1, 'Média':2, 'Pesada':3 };
+  const armorCA = armorCAMap[armorTipo] || 0;
+  const armorPenalty = {
+    'Leve':'Nenhuma restrição.',
+    'Média':'–1 em testes de Agilidade física (ex: Furtividade).',
+    'Pesada':'–2 em testes de Agilidade física e movimento reduzido em 1,5m.'
+  };
+  document.getElementById('armorPenaltyNote').textContent = armorPenalty[armorTipo] || '';
+
+  // valores efetivos (base + bônus de artefato), usados em todos os cálculos derivados
+  const FOR_e=FOR+bFOR, AGI_e=AGI+bAGI, VIG_e=VIG+bVIG, INT_e=INT+bINT, PRE_e=PRE+bPRE, SAN_e=SAN+bSAN;
+
+  // badges visuais nos atributos
+  const showEqp = (id, b) => { document.getElementById(id).textContent = b ? '+'+b+' (equip.)' : ''; };
+  showEqp('forEqp', bFOR); showEqp('agiEqp', bAGI); showEqp('vigEqp', bVIG);
+  showEqp('intEqp', bINT); showEqp('preEqp', bPRE); showEqp('sanEqp', bSAN);
+
+  const lvl = Math.max(1, Math.min(12, v('nivel') || 1));
+  const bonusHP  = lvlBonusHP(lvl);
+  const bonusSan = lvlBonusSan(lvl);
+
+  // VITALIDADE: 12 + 4×Vigor(efetivo) + bônus de nível (+2 por nível acima de 1)
+  const hpMax = 12 + 4*VIG_e + bonusHP;
+  document.getElementById('hpMax').textContent = hpMax;
+  document.getElementById('hpFormula').textContent =
+    '12 + 4×Vigor' + (bVIG ? ' (+'+bVIG+' equip.)' : '') + (bonusHP > 0 ? ' + ' + bonusHP + ' (nível)' : '');
+  const hpEl = document.getElementById('hpAtual');
+  if(hpEl.dataset.touched !== '1') hpEl.value = hpMax;
+  const hpAtual = parseInt(hpEl.value)||0;
+  document.getElementById('hpBar').style.width = Math.max(0,Math.min(100,(hpAtual/hpMax)*100))+'%';
+
+  // SANIDADE: 8 + Presença(efetiva) + Intelecto(efetivo) + bônus de nível (+1 por nível acima de 1)
+  const sanMax = 8 + PRE_e + INT_e + bonusSan;
+  document.getElementById('sanMax').textContent = sanMax;
+  document.getElementById('sanFormula').textContent =
+    '8 + PRE + INT' + ((bPRE||bINT) ? ' (+equip.)' : '') + (bonusSan > 0 ? ' + ' + bonusSan + ' (nível)' : '');
+  const sanEl = document.getElementById('sanAtual');
+  if(sanEl.dataset.touched !== '1') sanEl.value = sanMax;
+  const sanAtual = parseInt(sanEl.value)||0;
+  document.getElementById('sanBar').style.width = Math.max(0,Math.min(100,(sanAtual/sanMax)*100))+'%';
+
+  document.getElementById('caValueSvg').textContent = 10 + AGI_e + shieldCA + armorCA;
+  document.querySelector('.ca-shield .caformula').textContent =
+    '10 + Agilidade' + (bAGI ? ' (+'+bAGI+' equip.)' : '') + (shieldCA ? ' + '+shieldCA+' (escudo)' : '') + (armorCA ? ' + '+armorCA+' (armadura)' : '');
+  document.getElementById('resFis').textContent = VIG_e;
+  document.getElementById('resMen').textContent = PRE_e;
+  document.getElementById('resCorr').textContent = SAN_e;
+
+  // Proficiência
+  document.getElementById('profDisplay').textContent = '+' + profByLevel(lvl);
+
+  // Painel de bônus de nível
+  const bar = document.getElementById('lvlBonusBar');
+  if(lvl >= 2){
+    bar.style.display = 'block';
+    document.getElementById('lvlHpBonus').textContent  = '+' + bonusHP;
+    document.getElementById('lvlSanBonus').textContent = '+' + bonusSan;
+    document.getElementById('lvlAttrBonus').textContent= '+' + lvlBonusAttr(lvl);
+    document.getElementById('lvlAbilBonus').textContent= lvlAbilidades(lvl);
+  } else {
+    bar.style.display = 'none';
+  }
+
+  // Barra e label de XP
+  const xpAtual = v('xpAtual');
+  const xpParaEsteNivel = xpTable[lvl] || 0;
+  const xpProximo = xpTable[lvl + 1];
+  if(xpProximo !== undefined){
+    document.getElementById('xpNext').textContent = xpProximo;
+    document.getElementById('lvlXpLabel').textContent = 'XP: ' + xpAtual + ' / ' + xpProximo;
+    document.getElementById('lvlMaxNote').textContent = '';
+    const progresso = Math.max(0, Math.min(1, (xpAtual - xpParaEsteNivel) / (xpProximo - xpParaEsteNivel)));
+    document.getElementById('lvlXpBar').style.width = (progresso * 100) + '%';
+  } else {
+    document.getElementById('xpNext').textContent = '—';
+    document.getElementById('lvlXpLabel').textContent = 'XP: ' + xpAtual;
+    document.getElementById('lvlMaxNote').textContent = '✦ Nível máximo atingido!';
+    document.getElementById('lvlXpBar').style.width = '100%';
+  }
+
+  updateCorr();
+}
+
+function updateCorr(){
+  const corrEl = document.getElementById('corr');
+  let val = Math.max(1, Math.min(20, parseInt(corrEl.value)||1));
+  corrEl.value = val;
+  const bar = document.getElementById('corrBar');
+  bar.style.width = (val/20*100)+'%';
+  bar.style.background = val<=6 ? '#6b8f4e' : val<=13 ? '#a9822c' : val<=19 ? '#8f1f2a' : '#4a0a14';
+  document.getElementById('corrWarn').classList.toggle('show', val>=20);
+}
+function changeCorr(delta){
+  const corrEl = document.getElementById('corr');
+  corrEl.value = (parseInt(corrEl.value)||1) + delta;
+  updateCorr();
+}
+['hpAtual','sanAtual'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', e=>{ e.target.dataset.touched='1'; });
+});
+
+/* ---------- SALVAMENTO LOCAL (por dispositivo/navegador) ---------- */
+const STORAGE_KEY = 'sangueVinho_ficha_v1';
+
+function collectData(){
+  const data = {};
+  document.querySelectorAll('#sheet-root [id]').forEach(el=>{
+    if(['INPUT','SELECT','TEXTAREA'].includes(el.tagName)){
+      if(el.type === 'checkbox') data[el.id] = el.checked;
+      else if(el.type !== 'file') data[el.id] = el.value;
+    }
+  });
+  return data;
+}
+
+function applyData(data){
+  Object.keys(data).forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(el.type === 'checkbox') el.checked = !!data[id];
+    else el.value = data[id];
+  });
+  // preserva HP/Sanidade atuais exatos em vez de recalcular para o máximo
+  if(data.hpAtual !== undefined) document.getElementById('hpAtual').dataset.touched = '1';
+  if(data.sanAtual !== undefined) document.getElementById('sanAtual').dataset.touched = '1';
+  renderLegado();
+  updateAll();
+  updatePericias();
+}
+
+function showStatus(msg){
+  const s = document.getElementById('saveStatus');
+  if(s){ s.textContent = msg; }
+}
+
+function salvarLocal(manual){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(collectData()));
+    if(manual) showStatus('✓ Ficha salva neste dispositivo às ' + new Date().toLocaleTimeString());
+  }catch(e){
+    if(manual) showStatus('Não foi possível salvar (armazenamento indisponível neste navegador).');
+  }
+}
+
+function carregarLocal(silencioso){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw){ if(!silencioso) showStatus('Nenhuma ficha salva neste dispositivo ainda.'); return; }
+    applyData(JSON.parse(raw));
+    if(!silencioso) showStatus('✓ Ficha carregada deste dispositivo.');
+  }catch(e){
+    if(!silencioso) showStatus('Erro ao carregar a ficha salva.');
+  }
+}
+
+function limparFicha(){
+  if(!confirm('Tem certeza? Isso vai limpar TODOS os campos desta ficha (não afeta outros jogadores).')) return;
+  document.querySelectorAll('#sheet-root [id]').forEach(el=>{
+    if(el.tagName === 'INPUT'){
+      if(el.type === 'checkbox') el.checked = false;
+      else if(el.type === 'number') el.value = el.defaultValue || '1';
+      else el.value = '';
+      el.dataset.touched = '';
+    } else if(el.tagName === 'TEXTAREA'){ el.value = ''; }
+    else if(el.tagName === 'SELECT'){ el.selectedIndex = 0; }
+  });
+  localStorage.removeItem(STORAGE_KEY);
+  renderLegado(); updateAll(); updatePericias();
+  showStatus('Ficha limpa.');
+}
+
+function exportarArquivo(){
+  const data = collectData();
+  const nome = (data.nomePersonagem || 'ficha').trim().replace(/[^a-z0-9áéíóúâêîôûãõàèìòùç_\- ]/gi,'').replace(/\s+/g,'_') || 'ficha';
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nome + '_sangue_e_vinho.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showStatus('✓ Arquivo exportado.');
+}
+
+function importarArquivo(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    try{
+      applyData(JSON.parse(e.target.result));
+      salvarLocal(false);
+      showStatus('✓ Ficha importada de arquivo.');
+    }catch(err){
+      showStatus('Arquivo inválido — não foi possível importar.');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// Autosave: qualquer alteração na ficha salva automaticamente neste dispositivo
+let _saveTimeout = null;
+document.getElementById('sheet-root').addEventListener('input', ()=>{
+  clearTimeout(_saveTimeout);
+  _saveTimeout = setTimeout(()=> salvarLocal(false), 600);
+});
+document.getElementById('sheet-root').addEventListener('change', ()=>{
+  clearTimeout(_saveTimeout);
+  _saveTimeout = setTimeout(()=> salvarLocal(false), 600);
+});
+
+renderLegado();
+updateAll();
+updatePericias();
+carregarLocal(true); // carrega automaticamente o que já estiver salvo neste dispositivo
+</script>
+</div>
